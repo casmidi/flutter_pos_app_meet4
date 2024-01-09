@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_pos_app2024/data/models/response/auth_response_model.dart';
+import 'package:flutter_pos_app2024/data/datasources/auth_local_datasource.dart';
 import 'package:flutter_pos_app2024/presentation/auth/bloc/login/login_bloc.dart';
-import 'package:flutter_pos_app2024/presentation/home/pages/dashboard_page.dart';
 
 import '../../../components/buttons.dart';
 import '../../../components/custom_text_field.dart';
 import '../../../components/spaces.dart';
 import '../../../core/assets/assets.gen.dart';
+import '../../home/pages/dashboard_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -80,6 +80,8 @@ class _LoginPageState extends State<LoginPage> {
               state.maybeWhen(
                 orElse: () {},
                 success: (authResponseModel) {
+                  //simpan data di lokal
+                  AuthLocalDatasource().saveAuthData(authResponseModel);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
