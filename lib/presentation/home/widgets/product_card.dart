@@ -1,12 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pos_app2024/constants/variables.dart';
+import 'package:flutter_pos_app2024/data/models/response/product_response_model.dart';
+import 'package:flutter_pos_app2024/extensions/int_ext.dart';
 
 
 import '../../../components/spaces.dart';
 import '../../../constants/colors.dart';
-import '../models/product_model.dart';
 
 class ProductCard extends StatelessWidget {
-  final ProductModel data;
+  final Product data;
   final VoidCallback onCartButton;
 
   const ProductCard({
@@ -37,11 +40,13 @@ class ProductCard extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(50.0)),
-              child: Image.asset(
-                data.image,
-                width: 68,
-                height: 68,
-                fit: BoxFit.cover,
+              child: CachedNetworkImage(
+                imageUrl: '${Variables.imageBaseUrl}${data.image}',
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.food_bank_outlined,
+                  size: 80,
+                ),
               ),
             ),
           ),
@@ -57,7 +62,7 @@ class ProductCard extends StatelessWidget {
           ),
           const SpaceHeight(8.0),
           Text(
-            data.category.value,
+            data.category,
             style: const TextStyle(
               color: AppColors.grey,
               fontSize: 12,
@@ -69,7 +74,7 @@ class ProductCard extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  data.priceFormat,
+                  data.price.currencyFormatRp,
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
                   ),
