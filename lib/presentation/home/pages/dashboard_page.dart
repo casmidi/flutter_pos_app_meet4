@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pos_app2024/presentation/home/pages/home_page.dart';
-import 'package:flutter_pos_app2024/presentation/setting/pages/setting_page.dart';
 
 import '../../../constants/colors.dart';
 import '../../../core/assets/assets.gen.dart';
+import '../../history/pages/history_page.dart';
+import '../../order/pages/order_page.dart';
+import '../../setting/pages/setting_page.dart';
 import '../widgets/nav_item.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -18,18 +20,13 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const Center(
-      child: Text("Order"),
-    ),
-    const Center(
-      child: Text("History"),
-    ),
+    const OrderPage(),
+    const HistoryPage(),
     const SettingPage(),
-    
-    // const HomePage();
-    // const OrdersPage();
-    // const Placeholder();
-    // const ManageMenuPage();
+    // const HomePage(),
+    // const OrdersPage(),
+    // const Placeholder(),
+    // const ManageMenuPage(),
   ];
 
   void _onItemTapped(int index) {
@@ -73,7 +70,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 label: 'Orders',
                 isActive: _selectedIndex == 1,
                 onTap: () {
-                   _onItemTapped(1);
+                  _onItemTapped(1);
                   // context.push(const OrdersPage());
                 }),
             NavItem(

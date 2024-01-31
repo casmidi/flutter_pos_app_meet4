@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pos_app2024/constants/colors.dart';
 import 'package:flutter_pos_app2024/data/datasources/auth_local_datasource.dart';
 import 'package:flutter_pos_app2024/data/datasources/auth_remote_datasource.dart';
+import 'package:flutter_pos_app2024/data/datasources/midtrans_remote_datasource.dart';
+import 'package:flutter_pos_app2024/data/datasources/order_remote_datasource.dart';
 import 'package:flutter_pos_app2024/data/datasources/product_remote_datasource.dart';
 import 'package:flutter_pos_app2024/presentation/auth/pages/login_page.dart';
+import 'package:flutter_pos_app2024/presentation/home/bloc/checkout/checkout_bloc.dart';
+import 'package:flutter_pos_app2024/presentation/home/bloc/product/product_bloc.dart';
+import 'package:flutter_pos_app2024/presentation/home/pages/dashboard_page.dart';
+import 'package:flutter_pos_app2024/presentation/order/bloc/order/order_bloc.dart';
+import 'package:flutter_pos_app2024/presentation/order/bloc/qris/qris_bloc.dart';
+import 'package:flutter_pos_app2024/presentation/setting/bloc/sync_order/sync_order_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'constants/colors.dart';
 import 'presentation/auth/bloc/login/login_bloc.dart';
+import 'presentation/history/bloc/bloc/history_bloc.dart';
 import 'presentation/home/bloc/logout/logout_bloc.dart';
-import 'presentation/home/bloc/product/product_bloc.dart';
-import 'presentation/home/pages/dashboard_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,7 +39,20 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ProductBloc(ProductRemoteDatasource())
-          ..add(const ProductEvent.fetchLocal()),
+            ..add(const ProductEvent.fetchLocal()),
+        ),
+        BlocProvider(create: (context) => CheckoutBloc()),
+        BlocProvider(
+          create: (context) => OrderBloc(),
+        ),
+        BlocProvider(
+          create: (context) => QrisBloc(MidtransRemoteDatasource()),
+        ),
+        BlocProvider(
+          create: (context) => HistoryBloc(),
+        ),
+        BlocProvider(
+          create: (context) => SyncOrderBloc(OrderRemoteDatasource()),
         ),
       ],
       child: MaterialApp(
